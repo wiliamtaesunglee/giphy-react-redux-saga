@@ -1,21 +1,23 @@
-import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { getSearchResults } from './action';
 
 const Search = () => {
   const dispatch = useDispatch();
-
-  const onInputChange = (e) => {
-    console.log(e.target.value)
-    if (e.target.value) {
-      dispatch(getSearchResults(e.target.value))    
+  const [value, setValue] = useState('');
+  const onInputChange = event => {
+    event.preventDefault();
+    console.log(value)
+    if (value) {
+      dispatch(getSearchResults(value))    
     }
   }
 
   return (
-    <>
-      <input onChange={e => onInputChange(e)} />
-    </>
+    <form onSubmit={event => onInputChange(event)}>
+      <input type='text' onChange={e => setValue(e.target.value)}/>
+      <input type='submit'/>
+    </form>
   )
 };
 
